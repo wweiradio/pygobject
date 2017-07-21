@@ -26,8 +26,10 @@
 
 from __future__ import unicode_literals, absolute_import
 
-import gi
-gi.require_version('Gtk', '3.0')
+from utils import setup_gi_version
+
+setup_gi_version()
+
 
 from gi.repository import Gtk
 
@@ -54,6 +56,7 @@ class MyWindow(Gtk.Window):
         print("Goodbye")
 
 win = MyWindow()
+# make the event loop quit when delete is triggered.
 win.connect("delete-event", Gtk.main_quit)
 win.show_all()
 Gtk.main()

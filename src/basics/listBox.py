@@ -53,9 +53,9 @@ class ListBoxWindow(Gtk.Window):
 
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
-        row.add(hbox)
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         hbox.pack_start(vbox, True, True, 0)
+        row.add(hbox)
 
         label1 = Gtk.Label("Automatic Date & Time", xalign=0)
         label2 = Gtk.Label("Requires internet access", xalign=0)

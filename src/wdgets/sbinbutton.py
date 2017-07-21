@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 # pylint: disable=unused-wildcard-import
 #
 # Copyright (c) 2017 Cason Wang <wweiradio(at)gmail.com> by www.iibold.com
@@ -24,40 +24,43 @@
 # THE SOFTWARE.
 
 
-from __future__ import unicode_literals, absolute_import
-
 import gi
-
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
+class SpinButtonWindow(Gtk.Window):
 
-class StackWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Stack Demo")
-        self.set_border_width(20)
+        Gtk.Window.__init__(self, title="SpinButton Demo")
+        self.set_border_width(10)
 
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        self.add(vbox)
+        hbox = Gtk.Box(spacing=6)
+        self.add(hbox)
 
-        stack = Gtk.Stack()
-        stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
-        stack.set_transition_duration(1000)
+        adjustment = Gtk.Adjustment(0, 0, 100, 1, 10, 0)
+        self.spinbutton = Gtk.SpinButton()
+        self.spinbutton.set_adjustment(adjustment)
+        hbox.pack_start(self.spinbutton, False, False, 0)
 
-        checkbutton = Gtk.CheckButton("Click me!")
-        stack.add_titled(checkbutton, "check", "Check Button")
+        check_numeric = Gtk.CheckButton("Numeric")
+        check_numeric.connect("toggled", self.on_numeric_toggled)
+        hbox.pack_start(check_numeric, False, False, 0)
 
-        label = Gtk.Label()
-        label.set_markup("<big>A fancy label</big>")
-        stack.add_titled(label, "label", "A label")
+        check_ifvalid = Gtk.CheckButton("If Valid")
+        check_ifvalid.connect("toggled", self.on_ifvalid_toggled)
+        hbox.pack_start(check_ifvalid, False, False, 0)
 
-        stack_switcher = Gtk.StackSwitcher()
-        stack_switcher.set_stack(stack)
-        vbox.pack_start(stack_switcher, True, True, 0)
-        vbox.pack_start(stack, True, True, 0)
+    def on_numeric_toggled(self, button):
+        self.spinbutton.set_numeric(button.get_active())
 
+    def on_ifvalid_toggled(self, button):
+        if button.get_active():
+            policy = Gtk.SpinButtonUpdatePolicy.IF_VALID
+        else:
+            policy = Gtk.SpinButtonUpdatePolicy.ALWAYS
+        self.spinbutton.set_update_policy(policy)
 
-win = StackWindow()
+win = SpinButtonWindow()
 win.connect("delete-event", Gtk.main_quit)
 win.show_all()
 Gtk.main()

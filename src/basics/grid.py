@@ -39,7 +39,7 @@ class GridWindow(Gtk.Window):
         self.add(grid)
 
         button1 = Gtk.Button(label="Button 1")
-        button2 = Gtk.Button(label="Button 2")
+        button2 = Gtk.Button(label="Button 2-w2h1")
         button3 = Gtk.Button(label="Button 3")
         button4 = Gtk.Button(label="Button 4")
         button5 = Gtk.Button(label="Button 5")

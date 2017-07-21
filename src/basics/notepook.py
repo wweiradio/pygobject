@@ -47,7 +47,12 @@ class MyWindow(Gtk.Window):
 
         self.page2 = Gtk.Box()
         self.page2.set_border_width(10)
+        label2 = Gtk.Label()
+        label2.set_markup("Go to <a href=\"http://www.gtk.org\"title=\"我们的网站\">GTK+ website</a> for more")
+
         self.page2.add(Gtk.Label('A page with an image for a Title.'))
+        self.page2.add(label2)
+
         self.notebook.append_page(
             self.page2,
             Gtk.Image.new_from_icon_name(

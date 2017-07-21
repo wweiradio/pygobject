@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 # pylint: disable=unused-wildcard-import
 #
 # Copyright (c) 2017 Cason Wang <wweiradio(at)gmail.com> by www.iibold.com
@@ -23,41 +23,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
-from __future__ import unicode_literals, absolute_import
-
 import gi
-
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
+class ToggleButtonWindow(Gtk.Window):
 
-class StackWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Stack Demo")
-        self.set_border_width(20)
+        Gtk.Window.__init__(self, title="ToggleButton Demo")
+        self.set_border_width(10)
 
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        self.add(vbox)
+        hbox = Gtk.Box(spacing=6)
+        self.add(hbox)
 
-        stack = Gtk.Stack()
-        stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
-        stack.set_transition_duration(1000)
+        button = Gtk.ToggleButton("Button 1")
+        button.connect("toggled", self.on_button_toggled, "1")
+        hbox.pack_start(button, True, True, 0)
 
-        checkbutton = Gtk.CheckButton("Click me!")
-        stack.add_titled(checkbutton, "check", "Check Button")
+        button = Gtk.ToggleButton("B_utton 2", use_underline=True)
+        button.set_active(True)
+        button.connect("toggled", self.on_button_toggled, "2")
+        hbox.pack_start(button, True, True, 0)
 
-        label = Gtk.Label()
-        label.set_markup("<big>A fancy label</big>")
-        stack.add_titled(label, "label", "A label")
+    def on_button_toggled(self, button, name):
+        if button.get_active():
+            state = "on"
+        else:
+            state = "off"
+        print("Button", name, "was turned", state)
 
-        stack_switcher = Gtk.StackSwitcher()
-        stack_switcher.set_stack(stack)
-        vbox.pack_start(stack_switcher, True, True, 0)
-        vbox.pack_start(stack, True, True, 0)
-
-
-win = StackWindow()
+win = ToggleButtonWindow()
 win.connect("delete-event", Gtk.main_quit)
 win.show_all()
 Gtk.main()

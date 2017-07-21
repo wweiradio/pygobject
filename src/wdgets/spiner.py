@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 # pylint: disable=unused-wildcard-import
 #
 # Copyright (c) 2017 Cason Wang <wweiradio(at)gmail.com> by www.iibold.com
@@ -24,40 +24,42 @@
 # THE SOFTWARE.
 
 
-from __future__ import unicode_literals, absolute_import
-
 import gi
-
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
+class SpinnerAnimation(Gtk.Window):
 
-class StackWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Stack Demo")
-        self.set_border_width(20)
 
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        self.add(vbox)
+        Gtk.Window.__init__(self, title="Spinner")
+        self.set_border_width(3)
+        self.connect("delete-event", Gtk.main_quit)
 
-        stack = Gtk.Stack()
-        stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
-        stack.set_transition_duration(1000)
+        self.button = Gtk.ToggleButton("Start Spinning")
+        self.button.connect("toggled", self.on_button_toggled)
+        self.button.set_active(False)
 
-        checkbutton = Gtk.CheckButton("Click me!")
-        stack.add_titled(checkbutton, "check", "Check Button")
+        self.spinner = Gtk.Spinner()
 
-        label = Gtk.Label()
-        label.set_markup("<big>A fancy label</big>")
-        stack.add_titled(label, "label", "A label")
+        self.table = Gtk.Table(3, 2, True)
+        self.table.attach(self.button, 0, 2, 0, 1)
+        self.table.attach(self.spinner, 0, 2, 2, 3)
 
-        stack_switcher = Gtk.StackSwitcher()
-        stack_switcher.set_stack(stack)
-        vbox.pack_start(stack_switcher, True, True, 0)
-        vbox.pack_start(stack, True, True, 0)
+        self.add(self.table)
+        self.show_all()
+
+    def on_button_toggled(self, button):
+
+        if button.get_active():
+            self.spinner.start()
+            self.button.set_label("Stop Spinning")
+
+        else:
+            self.spinner.stop()
+            self.button.set_label("Start Spinning")
 
 
-win = StackWindow()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
+myspinner = SpinnerAnimation()
+
 Gtk.main()

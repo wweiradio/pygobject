@@ -40,7 +40,8 @@ class HeaderBarWindow(Gtk.Window):
 
         hb = Gtk.HeaderBar()
         hb.set_show_close_button(True)
-        hb.props.title = "HeaderBar example"
+        # hb.props.title = "HeaderBar example"
+        hb.props.title = "HeaderBar 示例"
         self.set_titlebar(hb)
 
         button = Gtk.Button()
